@@ -1,0 +1,80 @@
+- name: base packages
+  yum: name={{item}}
+  with_items:
+    - make
+    - unzip
+    - zip
+    - php-pdo
+    - php-gd
+    - php-common
+    - php-mbstring
+    - php-pecl-apc
+    - php-cli
+    - php
+    - php-mysql
+    - php-xml
+    - php-pecl-imagick    
+    - php-pecl-apcu
+    - php-ldap
+    - php-pear
+    - php-fpm
+    - php-composer-installers
+    - mariadb-server
+    - mysql-connector-python
+    - graphviz
+    - nginx
+    - httpd
+    - poppler
+    - MySQL-python
+    - php-pecl-imagick
+    - sphinx
+- name: firewall
+  shell: systemctl is-enabled firewalld.service
+  register: firewalld_status
+  ignore_errors: True    
+- firewalld: zone=public port={{item}}/tcp permanent=true state=enabled
+  notify:
+    - firewalld_restart
+  with_items:
+  - 22
+  - 80
+  - 8080
+  - 9100
+  when: firewalld_status.stdout.find('enabled') != -1
+
+- replace: dest=/etc/php.ini regexp='{{item.what}}' replace='{{item.to}}' backup=no
+  notify:
+    - php-fpm_restart
+  with_items:
+    - {what: '^(?P<param>memory_limit)\s*=\s*[^\n]+',   to: '\1 = 256M'}
+    - {what: '^(?P<param>max_input_time)\s*=\s*[^\n]+', to: '\1 = 180'}
+    - {what: '^(?P<param>post_max_size)\s*=\s*[^\n]+',  to: '\1 = 128M'}
+    - {what: '^(?P<param>upload_max_filesize)\s*=\s*[^\n]+',   to: '\1 = 128M'}
+
+- replace: dest=/etc/php-fpm.d/www.conf regexp='{{item.what}}' replace='{{item.to}}' backup=no
+  notify:
+    - php-fpm_restart
+  with_items:
+    - {what: '^(?P<param>pm.start_servers)\s*=\s*[^\n]+',   to: '\1 = 40'}
+    - {what: '^(?P<param>pm.max_children)\s*=\s*[^\n]+',   to: '\1 = 64'}
+    - {what: '^(?P<param>pm.max_spare_servers)\s*=\s*[^\n]+',   to: '\1 = 48'}
+    - {what: '^;?(?P<param>pm.max_requests)\s*=\s*[^\n]+',   to: '\1 = 500'}
+    - {what: '^;?(?P<param>env\[PATH\])',   to: '\1'}
+
+- replace: dest=/etc/sysctl.conf regexp='^fs.file-max\s*=\s*[^\n]+' replace='fs.file-max = 70000' backup=no
+  notify:
+    - sysctl_restart
+
+- name: php_debug
+  include: templates/install_php_debug.yml 
+  when: debug 
+
+- service: name=mariadb enabled=yes state=started
+- service: name=php-fpm enabled=yes state=started
+- replace: dest=/etc/httpd/conf/httpd.conf regexp='^(Listen\s+80)' replace='#\1' backup=yes
+- template: src=sphinx.conf dest=/etc/sphinx
+- file: path=/var/lib/sphinx/data state=directory owner=sphinx group=sphinx
+- service: name=nginx enabled=yes state=started
+- cron: name="service php-fpm restart" minute="0" hour="3" job='/usr/sbin/service php-fpm restart'
+- cron: name="service nginx restart" minute="0" hour="4"  job='/usr/sbin/service nginx restart'
+- cron: name="service mariadb restart" minute="0" hour="5" job='/usr/sbin/service mariadb restart'

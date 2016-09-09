@@ -1,0 +1,28 @@
+---
+- yum: name={{item}} state=present
+  with_items:
+    - nodejs
+    - npm
+
+- name: Clone application repository
+  git:
+    repo: https://github.com/wikimedia/parsoid.git
+    dest: "{{ parsoid_install_dir | mandatory }}"
+    version: master
+    force: yes
+    depth: 1
+
+- name: Install Parsoid node modules locally
+  npm:
+    global: no
+    path: "{{ parsoid_install_dir }}"
+
+- template: dest="{{ parsoid_install_dir  }}/config.yaml"  src=config.yaml
+- template: dest="/usr/lib/systemd/system/parsoid.service" src=parsoid.service
+  register: service_file
+- shell: systemctl daemon-reload
+  when: service_file.changed
+- file: path=/etc/parsoid/  state=directory 
+- template: dest=/etc/parsoid/parsoid.env src=parsoid.env
+- service: name=parsoid state=stopped
+- service: name=parsoid state=started

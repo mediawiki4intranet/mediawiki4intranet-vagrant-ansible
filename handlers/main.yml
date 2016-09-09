@@ -1,0 +1,11 @@
+---
+- name: nginx_restart
+  service: name=nginx state=restarted
+- name: firewalld_restart
+  service: name=firewalld state=restarted
+- name: mysqld_restart
+  service: name=mysqld state=restarted
+- name: php-fpm_restart
+  service: name=php-fpm state=restarted
+- name: sysctl_restart
+  shell: sysctl -p

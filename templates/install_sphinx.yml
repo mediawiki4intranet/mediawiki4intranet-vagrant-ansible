@@ -1,0 +1,6 @@
+- name: base packages
+  yum: name={{item}}
+  with_items:
+    - sphinx
+- template: src=templates/sphinx.conf dest=/etc/sphinx
+- file: path=/var/lib/sphinx/data state=directory owner=sphinx group=sphinx

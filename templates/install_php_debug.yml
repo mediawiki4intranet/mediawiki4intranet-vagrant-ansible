@@ -1,0 +1,15 @@
+- yum: name={{item}}
+  with_items:
+    - php-pecl-xdebug
+- ini_file: dest=/etc/php.d/xdebug.ini section=xdebug  option={{item.option}} value={{item.value}}
+  with_items:
+  - {option: 'xdebug.remote_enable',         value: '1'}
+  - {option: 'xdebug.remote_handler',        value: 'dbgp'}
+  - {option: 'xdebug.remote_autostart',      value: '1'}
+#- {option: 'xdebug.remote_host',           value: '10.30.29.125'}
+  - {option: 'xdebug.remote_host',           value: '{{ ansible_env["SSH_CLIENT"].split() | first }}'}
+  - {option: 'xdebug.remote_mode',           value: 'req'}
+  - {option: 'xdebug.remote_port ',          value: '9000'}
+  - {option: 'xdebug.show_exception_trace',  value: '0'}
+  - {option: 'xdebug.remote_log',            value: '/tmp/xdebug.log'}
+  notify: php-fpm_restart

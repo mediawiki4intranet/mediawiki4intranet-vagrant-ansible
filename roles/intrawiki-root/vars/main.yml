@@ -1,0 +1,7 @@
+---
+dbname:  intrawiki
+servername: intrawiki
+basedir: '/var/www/intrawiki/'
+imagesdir: '/var/data/intrawiki/images'
+intraacl: 1
+

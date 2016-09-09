@@ -1,0 +1,14 @@
+- name: Tex Packages
+  yum: name={{item}}
+  with_items:
+    - texlive-texmf-dvips
+    - texlive-texmf-fonts
+    - texlive-xetex
+    - texlive-dvips        
+    - texlive-latex
+    - texlive-latex-bin
+    - dvisvgm
+    - texlive-dvipng-bin
+    - texlive-ucs
+    - texlive-cyrillic
+    - texlive-lh

@@ -1,0 +1,28 @@
+- yum: name=libselinux-python
+- selinux: state=disabled
+  ignore_errors: True    
+- authorized_key: user=root key=https://github.com/belonesox.keys
+- authorized_key: user={{ ansible_ssh_user }} key=https://github.com/belonesox.keys
+- yum: name=epel-release
+- name: base packages
+  yum: name={{item}}
+  with_items:
+    - make
+    - gcc
+    - gettext
+    - htop
+    - ack
+    - mc
+    - ncdu
+    - tmux
+    - strace
+    - psmisc
+    - curl
+    - git
+    - wget
+    - lynx
+
+
+
+
+        

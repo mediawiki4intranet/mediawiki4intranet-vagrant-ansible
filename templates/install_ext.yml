@@ -1,0 +1,15 @@
+- debug: msg="Installing {{ item.url }}"
+- git: repo={{ item.url }} dest={{basedir}}/{{state}}/{{ item.dest }} version={{ item.version}} force=yes accept_hostkey=yes #key_file=~/.ssh/id_wiki
+  notify: php-fpm_restart
+- debug: msg="Checking {{basedir}}{{state}}/{{ item.dest }}/composer.json"
+- stat: path='{{basedir}}{{state}}/{{ item.dest }}/composer.json'
+  register: composer_json
+  become: no
+- composer:
+    command: "install"
+    working_dir: '{{basedir}}/{{state}}/{{ item.dest }}'
+  when: composer_json.stat.exists
+#- stat: path='{{basedir}}{{state}}/{{ item.dest }}/.gitmodules'
+#  register: gitmodules 
+#  become: no
+ 

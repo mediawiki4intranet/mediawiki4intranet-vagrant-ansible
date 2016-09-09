@@ -1,0 +1,6 @@
+#!/bin/sh
+export ANSIBLE_KEEP_REMOTE_FILES=1
+#export ANSIBLE_SCP_IF_SSH=y 
+ansible-playbook intrawiki.yml   --inventory-file=.vagrant/provisioners/ansible/inventory -v  --ask-sudo-pass $@ 
+#--start-at-task="vz"
+

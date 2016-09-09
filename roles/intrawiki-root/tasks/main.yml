@@ -1,0 +1,127 @@
+- template: src=nginx.conf dest=/etc/nginx/conf.d/{{servername}}.conf
+  notify: nginx_restart
+- include: templates/install_tex.yml
+- include: templates/install_ext.yml item={{ item }}
+  with_items:
+  - {dest: '',         url: '{{prefix_github}}mediawiki4intranet/core',     version: mediawiki4intranet-core-1.26}
+  - {dest: 'config',   url: '{{prefix_github}}mediawiki4intranet/configs',  version: master}
+  - {dest: 'vendor',   url: '{{prefix_wikimedia}}vendor',  version: REL1_26}
+  - {dest: 'extensions/googleAnalytics',   url: '{{prefix_wikimedia}}extensions/googleAnalytics',  version: master}
+  - {dest: 'extensions/MediaFunctions',    url: '{{prefix_wikimedia}}extensions/MediaFunctions',  version: master}
+  - {dest: 'extensions/Renameuser',    url: '{{prefix_wikimedia}}extensions/MediaFunctions',  version: master} #REL1_20
+  - {dest: 'extensions/SlimboxThumbs',    url: '{{prefix_wikimedia}}extensions/SlimboxThumbs',  version: master} 
+  - {dest: 'extensions/SyntaxHighlight_GeSHi',    url: '{{prefix_wikimedia}}extensions/SyntaxHighlight_GeSHi',  version: REL1_20} 
+  - {dest: 'extensions/UserMerge',    url: '{{prefix_wikimedia}}extensions/UserMerge',  version: REL1_20} 
+  - {dest: 'extensions/WhoIsWatching',    url: '{{prefix_wikimedia}}extensions/WhoIsWatching',  version: master} 
+  - {dest: 'extensions/Validator',   url: '{{prefix_wikimedia}}extensions/Validator',  version: master} 
+  - {dest: 'extensions/Variables',   url: '{{prefix_wikimedia}}extensions/Variables',  version: master} 
+  - {dest: 'extensions/Polyglot',    url: '{{prefix_wikimedia}}extensions/Polyglot',  version: master} 
+  - {dest: 'extensions/CategoryTree',  url: '{{prefix_wikimedia}}extensions/CategoryTree',  version: master} 
+  - {dest: 'extensions/CharInsert',  url: '{{prefix_github}}mediawiki4intranet/CharInsert',  version: master}
+  - {dest: 'extensions/CatCatGrouping', url: '{{prefix_github}}mediawiki4intranet/CatCatGrouping',  version: ffb83f917c172ec4a98cc650e5c362544750295c} 
+  - {dest: 'extensions/Cite',        url: '{{prefix_github}}mediawiki4intranet/Cite',  version: master} 
+  - {dest: 'extensions/ConfirmEdit',  url: '{{prefix_github}}mediawiki4intranet/ConfirmEdit',  version: master} 
+  - {dest: 'extensions/DeleteBatch',  url: '{{prefix_github}}mediawiki4intranet/DeleteBatch',  version: master} 
+  - {dest: 'extensions/Drafts',  url: '{{prefix_github}}mediawiki4intranet/Drafts',  version: master} 
+  - {dest: 'extensions/Interwiki',  url: '{{prefix_github}}mediawiki4intranet/Interwiki',  version: master} 
+  - {dest: 'extensions/PagedTiffHandler',  url: '{{prefix_github}}mediawiki4intranet/PagedTiffHandler',  version: master} 
+  - {dest: 'extensions/ParserFunctions',  url: '{{prefix_github}}mediawiki4intranet/ParserFunctions',  version: master} 
+  - {dest: 'extensions/SemanticMediaWiki',  url: '{{prefix_github}}mediawiki4intranet/ParserFunctions',  version: master} 
+  - {dest: 'extensions/SVGEdit',  url: '{{prefix_github}}mediawiki4intranet/SVGEdit',  version: master} 
+  - {dest: 'extensions/WikiCategoryTagCloud',  url: '{{prefix_github}}mediawiki4intranet/WikiCategoryTagCloud',  version: master} 
+  - {dest: 'extensions/WikiEditor',  url: '{{prefix_github}}mediawiki4intranet/WikiEditor',  version: master}
+  - {dest: 'extensions/VisualEditor',    url: '{{prefix_github}}mediawiki4intranet/mediawiki-extensions-VisualEditor',  version: REL1_26_INTRAACL} 
+  - {dest: 'extensions/AllNsSuggest',  url: '{{prefix_github}}mediawiki4intranet/AllNsSuggest',  version: master} 
+  - {dest: 'extensions/AllowGetParamsInWikilinks',  url: '{{prefix_github}}mediawiki4intranet/AllowGetParamsInWikilinks',  version: master} 
+  - {dest: 'extensions/BatchEditor',  url: '{{prefix_github}}mediawiki4intranet/BatchEditor',  version: master} 
+  - {dest: 'extensions/CategoryTemplate',  url: '{{prefix_github}}mediawiki4intranet/CategoryTemplate',  version: master} 
+  - {dest: 'extensions/CharInsertList',  url: '{{prefix_github}}mediawiki4intranet/CharInsertList',  version: master} 
+  - {dest: 'extensions/CustomSidebar',  url: '{{prefix_github}}mediawiki4intranet/CustomSidebar',  version: master} 
+  - {dest: 'extensions/CustomToolbox',  url: '{{prefix_github}}mediawiki4intranet/CustomToolbox',  version: master} 
+  - {dest: 'extensions/Dia',  url: '{{prefix_github}}mediawiki4intranet/Dia',  version: master} 
+  - {dest: 'extensions/DocExport',  url: '{{prefix_github}}mediawiki4intranet/DocExport',  version: master} 
+  - {dest: 'extensions/FavRate',  url: '{{prefix_github}}mediawiki4intranet/FavRate',  version: master} 
+  - {dest: 'extensions/FlvHandler',  url: '{{prefix_github}}mediawiki4intranet/FlvHandler',  version: master} 
+  - {dest: 'extensions/FullLocalImage',  url: '{{prefix_github}}mediawiki4intranet/FullLocalImage',  version: master} 
+  - {dest: 'extensions/HttpAuth',  url: '{{prefix_github}}mediawiki4intranet/HttpAuth',  version: master} 
+  - {dest: 'extensions/IntraACL',  url: '{{prefix_github}}mediawiki4intranet/IntraACL',  version: master} 
+  - {dest: 'extensions/ListFeed',  url: '{{prefix_github}}mediawiki4intranet/ListFeed',  version: master} 
+  - {dest: 'extensions/LinkAutocomplete',  url: '{{prefix_github}}mediawiki4intranet/LinkAutocomplete',  version: master} 
+  - {dest: 'extensions/MagicNumberedHeadings',  url: '{{prefix_github}}mediawiki4intranet/MagicNumberedHeadings',  version: master} 
+  - {dest: 'extensions/MarkupBabel',  url: '{{prefix_github}}belonesox/MarkupBabel',  version: master} 
+  - {dest: 'extensions/MatchByPrefix',  url: '{{prefix_github}}mediawiki4intranet/MatchByPrefix',  version: master} 
+  - {dest: 'extensions/mediawikiquizzer',  url: '{{prefix_github}}mediawiki4intranet/mediawikiquizzer',  version: master} 
+  - {dest: 'extensions/MergeConflicts',  url: '{{prefix_github}}mediawiki4intranet/MergeConflicts',  version: master} 
+  - {dest: 'extensions/MMHandler',  url: '{{prefix_github}}mediawiki4intranet/MMHandler',  version: master} 
+  - {dest: 'extensions/Mp3Handler',  url: '{{prefix_github}}mediawiki4intranet/Mp3Handler',  version: master} 
+  - {dest: 'extensions/MultiWikiSearch',  url: '{{prefix_github}}mediawiki4intranet/MultiWikiSearch',  version: master} 
+  - {dest: 'extensions/NewPagesEx',  url: '{{prefix_github}}mediawiki4intranet/NewPagesEx',  version: master} 
+  - {dest: 'extensions/NonOpenImages',  url: '{{prefix_github}}mediawiki4intranet/NonOpenImages',  version: master} 
+  - {dest: 'extensions/PdfHandler',  url: '{{prefix_github}}mediawiki4intranet/PdfHandler',  version: master} 
+  - {dest: 'extensions/PlantUML',  url: '{{prefix_github}}mediawiki4intranet/PlantUML',  version: master} 
+  - {dest: 'extensions/Polls',  url: '{{prefix_github}}belonesox/Polls',  version: master} 
+  - {dest: 'extensions/PopupWhatlinkshere',  url: '{{prefix_github}}mediawiki4intranet/PopupWhatlinkshere',  version: master} 
+  - {dest: 'extensions/RegexParserFunctions',  url: '{{prefix_github}}mediawiki4intranet/RegexParserFunctions',  version: master} 
+  - {dest: 'extensions/RemoveConfidential',  url: '{{prefix_github}}mediawiki4intranet/RemoveConfidential',  version: master} 
+  - {dest: 'extensions/S5SlideShow',  url: '{{prefix_github}}mediawiki4intranet/S5SlideShow',  version: master} 
+  - {dest: 'extensions/Shortcuts',  url: '{{prefix_github}}mediawiki4intranet/Shortcuts',  version: master} 
+  - {dest: 'extensions/SimpleAntiSpamReg',  url: '{{prefix_github}}mediawiki4intranet/SimpleAntiSpamReg',  version: master} 
+  - {dest: 'extensions/SimpleForms',  url: '{{prefix_github}}mediawiki4intranet/SimpleForms',  version: master} 
+  - {dest: 'extensions/SimpleTable',  url: '{{prefix_github}}mediawiki4intranet/SimpleTable',  version: master} 
+  - {dest: 'extensions/SphinxSearchEngine',  url: '{{prefix_github}}mediawiki4intranet/SphinxSearchEngine',  version: master} 
+  - {dest: 'extensions/Spoil',  url: '{{prefix_github}}mediawiki4intranet/Spoil',  version: master} 
+  - {dest: 'extensions/SWFUpload',  url: '{{prefix_github}}mediawiki4intranet/SWFUpload',  version: master} 
+  - {dest: 'extensions/TemplatedPageList',  url: '{{prefix_github}}mediawiki4intranet/TemplatedPageList',  version: master} 
+#  - {dest: 'extensions/TikaMW',  url: '{{prefix_github}}mediawiki4intranet/TikaMW',  version: master} 
+  - {dest: 'extensions/TopCategoryLinks',  url: '{{prefix_github}}mediawiki4intranet/TopCategoryLinks',  version: master} 
+  - {dest: 'extensions/UserMagic',  url: '{{prefix_github}}mediawiki4intranet/UserMagic',  version: master} 
+  - {dest: 'extensions/UserMessage',  url: '{{prefix_github}}mediawiki4intranet/UserMessage',  version: master} 
+  - {dest: 'extensions/UserPageByEmail',  url: '{{prefix_github}}mediawiki4intranet/UserPageByEmail',  version: master} 
+  - {dest: 'extensions/WikiBookmarks',  url: '{{prefix_github}}mediawiki4intranet/WikiBookmarks',  version: master} 
+  - {dest: 'extensions/Wikilog',  url: '{{prefix_github}}mediawiki4intranet/Wikilog',  version: master} 
+  - {dest: 'extensions/WikiKCaptcha',  url: '{{prefix_github}}mediawiki4intranet/WikiKCaptcha',  version: master} 
+  - {dest: 'extensions/ArticleByID',  url: '{{prefix_github}}belonesox/ArticleByID-MediaWiki',  version: master}
+  - {dest: 'extensions/CustisScripts',  url: '{{prefix_github}}mediawiki4intranet/CustisScripts',  version: master} 
+  - {dest: 'skins/cleanmonobook',  url: '{{prefix_github}}mediawiki4intranet/skins-cleanmonobook',  version: master}
+  - {dest: 'skins/vector',  url: '{{prefix_github}}mediawiki4intranet/Vector',  version: mw4i-1.26}
+  - {dest: 'skins/monobook',  url: '{{prefix_github}}mediawiki4intranet/skins-monobook',  version: mw4i-1.26}
+- file: path={{imagesdir}}  state=directory owner=apache group=apache
+- name: CheckDB
+  shell: "mysql -e 'SHOW DATABASES;' | grep {{dbname}}"
+  register: dbstatus
+  ignore_errors: True    
+  failed_when: 0
+- name: import-discopal
+  mysql_db: name="{{dbname}}" state=present encoding=utf8 collation=utf8_general_ci
+- mysql_user: name="{{dbname}}" password="{{dbname}}" priv=*.*:ALL state=present
+- name: LocalSettings
+  template: src=LocalSettings.php dest={{basedir}}/{{state}}/
+  notify: php-fpm_restart
+- block:
+    - name: CreateDB
+      shell: php maintenance/patchSql.php maintenance/tables.sql
+      args:
+        chdir: "{{basedir}}/{{state}}"
+      notify:
+      - php-fpm_restart
+      - nginx_restart
+    - shell: php maintenance/createAndPromote.php --bureaucrat WikiAdmin Wiki1729Admin
+      args:
+        chdir: "{{basedir}}/{{state}}"
+  when: dbstatus.rc==1
+- service: name=searchd enabled=yes state=stopped
+- service: name=searchd enabled=yes state=started
+- name: Update DB
+  shell: php maintenance/update.php
+  args:
+    chdir: "{{basedir}}/{{state}}"
+  notify:
+  - php-fpm_restart
+  - nginx_restart
+- include: templates/install_sphinx.yml 
+- name: "Rebuild Sphinx"
+  shell: php extensions/SphinxSearchEngine/rebuild-sphinx.php
+  args:
+    chdir: "{{basedir}}/{{state}}"
+
+

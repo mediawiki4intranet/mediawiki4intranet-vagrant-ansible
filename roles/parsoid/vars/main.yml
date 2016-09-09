@@ -1,0 +1,4 @@
+---
+parsoid_install_dir: /var/www/parsoid
+parsoid_domains:
+  "wiki": "http://{{ site_name }}/api.php"
