@@ -1,8 +1,7 @@
 - yum: name=libselinux-python
 - selinux: state=disabled
   ignore_errors: True    
-- authorized_key: user=root key=https://github.com/belonesox.keys
-- authorized_key: user={{ ansible_ssh_user }} key=https://github.com/belonesox.keys
+- include: templates/authorize_me.yml 
 - yum: name=epel-release
 - name: base packages
   yum: name={{item}}

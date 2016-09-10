@@ -105,7 +105,7 @@
       notify:
       - php-fpm_restart
       - nginx_restart
-    - shell: php maintenance/createAndPromote.php --bureaucrat WikiAdmin Wiki1729Admin
+    - shell: php maintenance/createAndPromote.php --bureaucrat WikiAdmin {{ wikiadminpass }}
       args:
         chdir: "{{basedir}}/{{state}}"
   when: dbstatus.rc==1

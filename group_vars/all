@@ -1,7 +1,5 @@
-# Here are variables related to the standalone JBoss installation
 prefix_wikimedia:   'https://gerrit.wikimedia.org/r/p/mediawiki/'
 prefix_abf:         'git:git@abf.io:'
 prefix_github:      'https://github.com/'
-prefix_gitlocal:    ssh://git@localhost:7999
 state:   'actual'
 datadir: /var/data

@@ -19,7 +19,8 @@ Vagrant.configure(2) do |config|
 
   vmname = "intrawiki"
   config.vm.define vmname do |conf|
-    conf.vm.synced_folder '.', '/vagrant', disabled: true
+    config.ssh.insert_key = false #workaround for https://github.com/mitchellh/vagrant/issues/7610
+    conf.vm.synced_folder '.', '/vagrant', disabled: true #enable and tune here, if you want to share some folder with some local folder
     conf.vm.box = "relativkreativ/centos-7-minimal"
     conf.vm.hostname = vmname  + "." + DOMAIN
     start_port = (Digest::SHA256.hexdigest conf.vm.hostname)[1..4].to_i(16)+1000
@@ -39,6 +40,7 @@ Vagrant.configure(2) do |config|
                 "domain =  '#{DOMAIN}'",
                 "debug = 1",
                 "site_name  = '#{conf.vm.hostname}'",
+                "wikiadminpass  = 'Wiki1729Admin'",
             ]
         }
       ansible.playbook = "intrawiki.yml"
