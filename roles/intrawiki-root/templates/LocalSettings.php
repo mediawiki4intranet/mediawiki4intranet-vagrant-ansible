@@ -18,16 +18,18 @@ $egSubpagelistAjaxDisableRE = '#^Blog:[^/]*$#s';
 unset( $wgFooterIcons['poweredby'] );
 $wgRightsIcon = null;
 
-// Enable by default for everybody
+
+{% if wysiwyg is defined and wysiwyg %}
+
 $wgDefaultUserOptions['visualeditor-enable'] = 1;
-
-// Don't allow users to disable it
 $wgHiddenPrefs[] = 'visualeditor-enable';
-
 $wgVirtualRestConfig['modules']['parsoid'] = array(
   'url' => 'http://localhost:8000',
   'domain' => 'wiki',
 );
-
 $wgSessionsInObjectCache = true;
 $wgVirtualRestConfig['modules']['parsoid']['forwardCookies'] = true;
+
+{% endif %}
+
+#22222222222222222

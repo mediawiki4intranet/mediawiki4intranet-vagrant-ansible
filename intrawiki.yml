@@ -11,6 +11,7 @@
       become: yes
     - role: parsoid
       become: yes
+      when: wysiwyg
     - role: wiki-root-common
       become: yes
     - role: intrawiki-root

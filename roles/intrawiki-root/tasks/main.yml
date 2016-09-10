@@ -1,6 +1,7 @@
 - template: src=nginx.conf dest=/etc/nginx/conf.d/{{servername}}.conf
   notify: nginx_restart
 - include: templates/install_tex.yml
+  when: tex
 - include: templates/install_ext.yml item={{ item }}
   with_items:
   - {dest: '',         url: '{{prefix_github}}mediawiki4intranet/core',     version: mediawiki4intranet-core-1.26}
@@ -30,7 +31,6 @@
   - {dest: 'extensions/SVGEdit',  url: '{{prefix_github}}mediawiki4intranet/SVGEdit',  version: master} 
   - {dest: 'extensions/WikiCategoryTagCloud',  url: '{{prefix_github}}mediawiki4intranet/WikiCategoryTagCloud',  version: master} 
   - {dest: 'extensions/WikiEditor',  url: '{{prefix_github}}mediawiki4intranet/WikiEditor',  version: master}
-  - {dest: 'extensions/VisualEditor',    url: '{{prefix_github}}mediawiki4intranet/mediawiki-extensions-VisualEditor',  version: REL1_26_INTRAACL} 
   - {dest: 'extensions/AllNsSuggest',  url: '{{prefix_github}}mediawiki4intranet/AllNsSuggest',  version: master} 
   - {dest: 'extensions/AllowGetParamsInWikilinks',  url: '{{prefix_github}}mediawiki4intranet/AllowGetParamsInWikilinks',  version: master} 
   - {dest: 'extensions/BatchEditor',  url: '{{prefix_github}}mediawiki4intranet/BatchEditor',  version: master} 
@@ -85,18 +85,26 @@
   - {dest: 'skins/cleanmonobook',  url: '{{prefix_github}}mediawiki4intranet/skins-cleanmonobook',  version: master}
   - {dest: 'skins/vector',  url: '{{prefix_github}}mediawiki4intranet/Vector',  version: mw4i-1.26}
   - {dest: 'skins/monobook',  url: '{{prefix_github}}mediawiki4intranet/skins-monobook',  version: mw4i-1.26}
+  
+- include: templates/install_ext.yml item={{ item }}
+  with_items:
+  - {dest: 'extensions/VisualEditor',    url: '{{prefix_github}}mediawiki4intranet/mediawiki-extensions-VisualEditor',  version: REL1_26_INTRAACL} 
+  when: wysiwyg
+  
 - file: path={{imagesdir}}  state=directory owner=apache group=apache
 - name: CheckDB
   shell: "mysql -e 'SHOW DATABASES;' | grep {{dbname}}"
   register: dbstatus
   ignore_errors: True    
   failed_when: 0
-- name: import-discopal
-  mysql_db: name="{{dbname}}" state=present encoding=utf8 collation=utf8_general_ci
+
+- mysql_db: name="{{dbname}}" state=present encoding=utf8 collation=utf8_general_ci
 - mysql_user: name="{{dbname}}" password="{{dbname}}" priv=*.*:ALL state=present
+
 - name: LocalSettings
-  template: src=LocalSettings.php dest={{basedir}}/{{state}}/
+  template: src=LocalSettings.php dest="{{basedir}}/{{state}}/"
   notify: php-fpm_restart
+
 - block:
     - name: CreateDB
       shell: php maintenance/patchSql.php maintenance/tables.sql

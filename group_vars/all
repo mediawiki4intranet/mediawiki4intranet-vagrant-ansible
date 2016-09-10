@@ -3,3 +3,5 @@ prefix_abf:         'git:git@abf.io:'
 prefix_github:      'https://github.com/'
 state:   'actual'
 datadir: /var/data
+wysiwyg: yes
+tex: yes
