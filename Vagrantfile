@@ -17,9 +17,12 @@ Vagrant.configure(2) do |config|
     end
   end  
 
-  vmname = "intrawiki"
+  vmname = "intrawiki2"
   config.vm.define vmname do |conf|
-    config.ssh.insert_key = false #workaround for https://github.com/mitchellh/vagrant/issues/7610
+  config.ssh.username = 'root'
+  config.ssh.password = 'vagrant'
+  config.ssh.insert_key = 'true'
+    #config.ssh.insert_key = false #workaround for https://github.com/mitchellh/vagrant/issues/7610
     conf.vm.synced_folder '.', '/vagrant', disabled: true #enable and tune here, if you want to share some folder with some local folder
     conf.vm.box = "relativkreativ/centos-7-minimal"
     conf.vm.hostname = vmname  + "." + DOMAIN
@@ -32,7 +35,7 @@ Vagrant.configure(2) do |config|
       conf.vm.provision :hosts, :sync_hosts => true    
     end  
     conf.vm.provision "ansible" do |ansible|
-      ansible.verbose = "v"
+      ansible.verbose = "vvv"
         ansible.groups = {
             vmname  => [vmname],
             "all" => [],

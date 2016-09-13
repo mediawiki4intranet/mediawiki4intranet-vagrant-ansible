@@ -1,20 +1,15 @@
 ---
-- hosts: intrawiki
+- hosts: intrawiki2
   remote_user: "{{ansible_ssh_user}}"
   pre_tasks:
     - name: epel
       yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm state=present
-      become: yes
     - setup: 
   roles:
     - role: common-root
-      become: yes
     - role: parsoid
-      become: yes
       when: wysiwyg
     - role: wiki-root-common
-      become: yes
     - role: intrawiki-root
-      become: yes
 
         

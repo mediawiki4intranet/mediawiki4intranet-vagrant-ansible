@@ -20,7 +20,14 @@
     - git
     - wget
     - lynx
-
+- lineinfile:
+    dest: /etc/sudoers
+    line: 'Defaults requiretty'
+    state: absent
+- lineinfile:
+    dest: /etc/sudoers
+    line: 'Defaults !requiretty'
+    state: present
 
 
 
