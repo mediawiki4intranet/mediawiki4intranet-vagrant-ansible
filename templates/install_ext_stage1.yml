@@ -3,4 +3,5 @@
   poll: 0
   register: "resultvar"
   notify: php-fpm_restart
+  with_items: "{{ extensions2install }}"
  

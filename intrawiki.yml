@@ -1,5 +1,5 @@
 ---
-- hosts: intrawiki2
+- hosts: intrawiki
   remote_user: "{{ansible_ssh_user}}"
   pre_tasks:
     - name: epel

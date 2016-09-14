@@ -1,0 +1,9 @@
+- debug: msg="Checking {{basedir}}{{state}}/{{ item.dest }}/composer.json"
+- stat: path='{{basedir}}{{state}}/{{ item.dest }}/composer.json'
+  register: composer_json
+  become: no
+- composer:
+    command: "install"
+    working_dir: '{{basedir}}/{{state}}/{{ item.dest }}'
+  when: composer_json.stat.exists
+ 

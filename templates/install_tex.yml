@@ -1,5 +1,9 @@
 - name: Tex Packages
   yum: name={{item}}
+  #async_status: jid="{{ texinstall.ansible_job_id }}"
+  async: 1000
+  poll: 0
+  register: texinstall
   with_items:
     - texlive-texmf-dvips
     - texlive-texmf-fonts
@@ -12,3 +16,8 @@
     - texlive-ucs
     - texlive-cyrillic
     - texlive-lh
+- debug: msg="{{ texinstall }}"
+- async_status: jid={{ texinstall.results[0].ansible_job_id }}
+  register: texinstall_result
+  until: texinstall_result.finished
+  retries: 30

@@ -2,6 +2,6 @@
 #export ANSIBLE_KEEP_REMOTE_FILES=1
 #export ANSIBLE_SCP_IF_SSH=y
 #export ANSIBLE_DEBUG=1 
-ansible-playbook intrawiki.yml   --inventory-file=.vagrant/provisioners/ansible/inventory -v  $@ 
+ansible-playbook intrawiki.yml  --inventory-file=.vagrant/provisioners/ansible/inventory -v  $@ 
 #--start-at-task="vz"
 

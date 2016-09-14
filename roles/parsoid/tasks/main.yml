@@ -3,6 +3,9 @@
   with_items:
     - nodejs
     - npm
+#  async: 300
+#  poll: 0
+#  register: nodeinstall
 
 - name: Clone application repository
   git:
