@@ -31,7 +31,6 @@ Vagrant.configure(2) do |config|
     conf.vm.network "private_network", ip: "192.168.4.#{subip}"
     conf.vm.network "forwarded_port", guest: 80,   host: start_port 
     conf.vm.network "forwarded_port", guest: 3306, host: start_port + 1
-    conf.vm.network "forwarded_port", guest: 5099, host: 5099
     if Vagrant.has_plugin?("vagrant-hosts")
       conf.vm.provision :hosts, :sync_hosts => true    
     end  
