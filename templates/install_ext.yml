@@ -1,5 +1,5 @@
 - git: repo={{ item.url }} dest={{basedir}}/{{state}}/{{ item.dest }} version={{ item.version}} force=yes accept_hostkey=yes #key_file=~/.ssh/id_wiki
-  async: 300
+  async: 400
   poll: 0
   register: "resultvar"
   notify: php-fpm_restart
