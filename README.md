@@ -17,9 +17,7 @@ So, lets begin.
 
 If you have some good Linux on development box, please, install:
 * [Vagrant](https://www.vagrantup.com/): by package manager or RPM/DEB from the site.
-* [Ansible](https://www.ansible.com/): by package manager or by
-
-      pip install ansible
+* [Ansible](https://www.ansible.com/): by package manager or by `pip install ansible`.
 
 * [VirtualBox](https://www.virtualbox.org/): by package manager or RPM/DEB from the site.
 
@@ -33,16 +31,16 @@ After installing all these stuff:
     vagrant up
 
 
-While deploying, add to /etc/hosts
+While deploying, add to `/etc/hosts`
 
      127.0.0.1 intrawiki.local.com
 
 
 All should be OK, like that
 
-    PLAY RECAP   
-    *********************************************************************                                                 
-    intrawiki                  : ok=468  changed=132  unreachable=0    failed=0     
+    PLAY RECAP
+    ********************************************************************* 
+    intrawiki                  : ok=468  changed=132  unreachable=0    failed=0
 
 
 Ask vagrant about port forwarding
@@ -61,13 +59,15 @@ So you can
 * http://intrawiki.local.com:15304/ — and login by «WikiAdmin» with pass «Wiki1729Admin»
 * SSH into local VM:
    
-      ssh root@0 -p 2222
+
+    ssh root@0 -p 2222
 
 or simply
 
      vagrant ssh
 
 * Mount root filesystem of your VM like that
+
 
       sshfs root@0:/ -p 2222 -o reconnect /mnt/intrawiki
 
@@ -77,46 +77,29 @@ or simply
 
 ---- 
 
-For production deploy you should edit [hosts.ini](https://github.com/mediawiki4intranet/mediawiki4intranet-vagrant-ansible/blob/master/hosts.ini), setting IP address of your VPS with fresh Centos 7, domain adn site name, and run
-      !intrawiki-production
+For production deploy you should edit [hosts.ini](https://github.com/mediawiki4intranet/mediawiki4intranet-vagrant-ansible/blob/master/hosts.ini), setting IP address of your VPS with fresh Centos 7, domain adn site name, and run `!intrawiki-production`
 
 
 ----
 
 Some details: 
 
-[Vagrantfile](Vagrantfile)
-:     Local VM settings. No need to change. Possible to make shared folders, disable debugging, tune CPU and memory usage.
+* [Vagrantfile](Vagrantfile): Local VM settings. No need to change. Possible to make shared folders, disable debugging, tune CPU and memory usage.
 
-[hosts.ini](hosts.ini)
-:     How to deploy to production. Do not forget to change WikiAdmin password, or brute russian hackers will hack you.
+* [hosts.ini](hosts.ini):  How to deploy to production. Do not forget to change WikiAdmin password, or brute russian hackers will hack you.
 
-[group_vars/all](group_vars/all)
-: Some settings/constants, for example, you can disable fat TexLive installation by «<tt>tex: no</tt>» if you need no LaTeX,
-or «<tt>wysiwyg: no</tt>», if you need no WYSIWYG and no nodejs stack.
+* [group_vars/all](group_vars/all): Some settings/constants, for example, you can disable fat TexLive installation by «<tt>tex: no</tt>» if you need no LaTeX, or «<tt>wysiwyg: no</tt>», if you need no WYSIWYG and no nodejs stack.
 
-`roles`
-:   Ansible roles.
+* `roles`:   Ansible roles.
+ * [roles/common-root](roles/common-root): Common tuning of minimal Centos 7. Also put your public keys to authorization keys of the VM. (we will touch you  <tt>~/.ssh/id_rsa</tt>, but only for generating public keys).
 
-[roles/common-root](roles/common-root)
+ * [roles/parsoid](roles/parsoid): NodeJS-based parsing service.
 
-: Common tuning of minimal Centos 7. Also put your public keys to authorization keys of the VM. (we will touch you  <tt>~/.ssh/id_rsa</tt>, but only for generating public keys).
-
-[roles/parsoid](roles/parsoid)
-:    NodeJS-based parsing service.
-
-[roles/wiki-root-common](roles/wiki-root-common)
-:     PHP-NGINX-PHP-FPM stack, common for several wikis.
-
-[roles/intrawiki-root](roles/intrawiki-root)
-:     Deploying specific wiki instance. copy-and-patch this directory to get several wikis on the VM.
-
-[roles/intrawiki-root/vars/main.yml](roles/intrawiki-root/vars/main.yml)
-:      Here you can tune extensions list. All checkouted extensions automatically included in LocalSettings.
+ * [roles/wiki-root-common](roles/wiki-root-common): PHP-NGINX-PHP-FPM stack, common for several wikis.
+ * [roles/intrawiki-root](roles/intrawiki-root): Deploying specific wiki instance. copy-and-patch this directory to get several wikis on the VM.
+ * [roles/intrawiki-root/vars/main.yml](roles/intrawiki-root/vars/main.yml): Here you can tune extensions list. All checkouted extensions automatically included in LocalSettings.
 
 
-        - include: templates/install_ext.yml item={{ item }}
-          with_items:
           - {dest: '',         url: '{{prefix_github}}mediawiki4intranet/core',     version: mediawiki4intranet-core-1.26}
           - {dest: 'config',   url: '{{prefix_github}}mediawiki4intranet/configs',  version: master}
           - {dest: 'vendor',   url: '{{prefix_wikimedia}}vendor',  version: REL1_26}
@@ -127,7 +110,6 @@ or «<tt>wysiwyg: no</tt>», if you need no WYSIWYG and no nodejs stack.
           - {dest: 'skins/vector',  url: '{{prefix_github}}mediawiki4intranet/Vector',  version: mw4i-1.26}
           - {dest: 'skins/monobook',  url: '{{prefix_github}}mediawiki4intranet/skins-monobook',  version: mw4i-1.26}
 
-[roles/intrawiki-root/templates/LocalSettings.php](roles/intrawiki-root/templates/LocalSettings.php)
-:     Detailed wiki tuning for you wiki.
+ * [roles/intrawiki-root/templates/LocalSettings.php](roles/intrawiki-root/templates/LocalSettings.php): Detailed wiki tuning for you wiki.
 
 
