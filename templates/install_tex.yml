@@ -16,3 +16,8 @@
     - texlive-ucs
     - texlive-cyrillic
     - texlive-lh
+- async_status: jid={{ texinstall.results[0].ansible_job_id }}
+  register: texinstall_result
+  until: texinstall_result.finished
+  retries: 30
+  delay: 30
