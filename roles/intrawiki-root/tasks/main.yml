@@ -54,5 +54,7 @@
   shell: php extensions/SphinxSearchEngine/rebuild-sphinx.php
   args:
     chdir: "{{basedir}}/{{state}}"
+- include: templates/install_tex_stage2.yml
+  when: tex
 
 
