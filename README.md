@@ -105,7 +105,7 @@ Some details:
           - {dest: 'vendor',   url: '{{prefix_wikimedia}}vendor',  version: REL1_26}
           - {dest: 'extensions/googleAnalytics',   url: '{{prefix_wikimedia}}extensions/googleAnalytics',  version: master}
           - {dest: 'extensions/MediaFunctions',    url: '{{prefix_wikimedia}}extensions/MediaFunctions',  version: master}
-        …
+                …
           - {dest: 'skins/cleanmonobook',  url: '{{prefix_github}}mediawiki4intranet/skins-cleanmonobook',  version: master}
           - {dest: 'skins/vector',  url: '{{prefix_github}}mediawiki4intranet/Vector',  version: mw4i-1.26}
           - {dest: 'skins/monobook',  url: '{{prefix_github}}mediawiki4intranet/skins-monobook',  version: mw4i-1.26}
