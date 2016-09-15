@@ -35,7 +35,7 @@ Vagrant.configure(2) do |config|
       conf.vm.provision :hosts, :sync_hosts => true    
     end  
     conf.vm.provision "ansible" do |ansible|
-      ansible.verbose = "vvv"
+      ansible.verbose = "v"
         ansible.groups = {
             vmname  => [vmname],
             "all" => [],

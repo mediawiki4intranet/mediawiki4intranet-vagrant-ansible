@@ -8,7 +8,7 @@
 - authorized_key:
     user: "{{ ansible_ssh_user }}"
     key:  "{{ lookup('file', '/tmp/{{whoami.stdout}}-id_rsa.pub') }}"
-- authorized_key:
-    user:  root
-    key:  "{{ lookup('file', '/tmp/{{whoami.stdout}}-id_rsa.pub') }}"
-  become: yes
+#- authorized_key:
+#    user:  root
+#    key:  "{{ lookup('file', '/tmp/{{whoami.stdout}}-id_rsa.pub') }}"
+#  become: yes
