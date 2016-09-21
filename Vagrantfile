@@ -11,14 +11,14 @@ Vagrant.configure(2) do |config|
   end
   config.vm.box_check_update = false
 
-  if Vagrant.has_plugin?("vagrant-triggers")
-    config.trigger.after [:up, :destroy, :halt] do
-      run "vagrantsync"
-    end
-  end  
+  #if Vagrant.has_plugin?("vagrant-triggers")
+  #  config.trigger.after [:up, :destroy, :halt] do
+  #    run "vagrantsync"
+  #  end
+  #end  
 
   vmname = "intrawiki"
-  config.vm.define vmname do |conf|
+  config.vm.define "intrawiki", primary: true do |conf|
   config.ssh.username = 'root'
   config.ssh.password = 'vagrant'
   config.ssh.insert_key = 'true'
@@ -27,10 +27,8 @@ Vagrant.configure(2) do |config|
     conf.vm.box = "relativkreativ/centos-7-minimal"
     conf.vm.hostname = vmname  + "." + DOMAIN
     start_port = (Digest::SHA256.hexdigest conf.vm.hostname)[1..4].to_i(16)+1000
-    subip = (Digest::SHA256.hexdigest conf.vm.hostname)[1..2].to_i(16)
+    subip = ((Digest::SHA256.hexdigest conf.vm.hostname)[1..2].to_i(16) % 250) + 2
     conf.vm.network "private_network", ip: "192.168.4.#{subip}"
-    conf.vm.network "forwarded_port", guest: 80,   host: start_port 
-    conf.vm.network "forwarded_port", guest: 3306, host: start_port + 1
     if Vagrant.has_plugin?("vagrant-hosts")
       conf.vm.provision :hosts, :sync_hosts => true    
     end  
